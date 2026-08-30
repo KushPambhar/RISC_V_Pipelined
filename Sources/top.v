@@ -103,7 +103,7 @@ module top(input clk, input reset);
 
     Instruction_mem_wb,
     RegWrite_mem_wb, MemtoReg_mem_wb,
-    [31:0] AluOut_mem_wb, DataMemoryOut_mem_wb
+    AluOut_mem_wb, DataMemoryOut_mem_wb
     );
 
     mux_2x1 mux2_wb(AluOut_mem_wb,DataMemoryOut_mem_wb,MemtoReg_mem_wb,WriteData);
