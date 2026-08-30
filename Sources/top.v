@@ -93,11 +93,10 @@ module top(input clk, input reset);
     mux_4x1 mux4_srcA(ReadData1_id_ex,32'b0, pc_id_ex, 32'b0, AluSrcA_id_ex ,SrcAOut);
     mux_2x1 mux2_srcB(ReadData2_id_ex,Imm_Gen_Out_id_ex, AluSrcB_id_ex ,SrcBOut);
     ALUControl alu_ctrl_inst(AluOP_id_ex,Instruction_id_ex[14:12],Instruction_id_ex[30],AluControlOut);
-    ALU alu_inst(SrcAOut,SrcBOut,AluControlOut, AluOut, zero, lt, ltu);
 
     assign ReadData1_fwd_a = (forward_a == 2'b00) ? SrcAOut : (forward_a == 2'b01) ? AluOut_ex_mem : WriteData;
     assign ReadData2_fwd_b = (forward_b == 2'b00) ? SrcBOut : (forward_b == 2'b01) ? AluOut_ex_mem : WriteData;
-    
+    ALU alu_inst(ReadData1_fwd_a,ReadData2_fwd_b,AluControlOut, AluOut, zero, lt, ltu);
 
     //EX_MEM
     EX_MEM ex_mem(clk, reset,
