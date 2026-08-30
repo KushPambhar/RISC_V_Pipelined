@@ -18,7 +18,7 @@ module top(input clk, input reset);
     wire [1:0] AluOP_id_ex, AluSrcA_id_ex;
     wire Branch_id_ex, MemRead_id_ex, MemtoReg_id_ex, MemWrite_id_ex, AluSrcB_id_ex, RegWrite_id_ex;
 
-    wire forward_a, forward_b;
+    wire [1:0] forward_a, forward_b;
     wire [31:0] ReadData1_fwd_a, ReadData2_fwd_b;
 
     wire [3:0] AluControlOut;
