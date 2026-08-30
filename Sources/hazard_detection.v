@@ -3,7 +3,6 @@ module hazard_detection(
     input [4:0] rs2,
     input [4:0] rd_id_ex,
     input MemRead_id_ex,
-    input reg_write_mem,
     output reg PcWrite,
     output reg IF_ID_Write,
     output reg stall
