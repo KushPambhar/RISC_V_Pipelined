@@ -62,13 +62,13 @@ module top(input clk, input reset);
 
         pc_id_ex, pc_next_id_ex, Instruction_id_ex,
         ReadData1_id_ex, ReadData2_id_ex, Imm_Gen_Out_id_ex,
-        AluOP_id_ex, AluSrcA_id_ex, ALuSrcB_id_ex,
+        AluOP_id_ex, AluSrcA_id_ex, AluSrcB_id_ex,
         Branch_id_ex, MemRead_id_ex,MemWrite_id_ex,
         RegWrite_id_ex, MemtoReg_id_ex, 
-        )
+        );
     
     //EX
-    adder a2(pc_out_id_ex,Imm_Gen_Out_id_ex,pc_branch);
+    adder a2(pc_id_ex,Imm_Gen_Out_id_ex,pc_branch);
     mux_4x1 mux4_srcA(ReadData1_id_ex,32'b0, pc_out_id_ex, 32'b0, AluSrcA_id_ex ,SrcAOut);
     mux_2x1 mux2_srcB(ReadData2_id_ex,Imm_Gen_Out_id_ex, AluSrcB_id_ex ,SrcBOut);
     ALUControl alu_ctrl_inst(AluOP_id_ex,Instruction_id_ex[14:12],Instruction_id_ex[30],AluControlOut);
@@ -82,13 +82,13 @@ module top(input clk, input reset);
         RegWrite_id_ex, MemtoReg_id_ex,
         pc_branch,AluOut,zero,lt,ltu,
 
-        pc_ex_mem, pc_next_ex_mem, Instruction_ex_mem;
-        ReadData2_ex_mem;
-        Branch_ex_mem, MemRead_ex_mem, MemWrite_ex_mem ;
-        RegWrite_ex_mem, MemtoReg_ex_mem ;
-        pc_branch_ex_mem, AluOut_ex_mem;
-        zero_ex_mem, lt_ex_mem, ltu_ex_mem;
-    )
+        pc_ex_mem, pc_next_ex_mem, Instruction_ex_mem,
+        ReadData2_ex_mem,
+        Branch_ex_mem, MemRead_ex_mem, MemWrite_ex_mem,
+        RegWrite_ex_mem, MemtoReg_ex_mem,
+        pc_branch_ex_mem, AluOut_ex_mem,
+        zero_ex_mem, lt_ex_mem, ltu_ex_mem
+    );
 
     // MEM
     branch_logic branch_inst(Instruction_ex_mem[14:12],zero_ex_mem,lt_ex_mem,ltu_ex_mem,branch_taken);
@@ -101,9 +101,9 @@ module top(input clk, input reset);
     RegWrite_ex_mem, MemtoReg_ex_mem,
     AluOut_ex_mem,DataMemoryOut,
 
-    Instruction_mem_wb;
-    RegWrite_mem_wb, MemtoReg_mem_wb;
-    [31:0] AluOut_mem_wb, DataMemoryOut_mem_wb;
+    Instruction_mem_wb,
+    RegWrite_mem_wb, MemtoReg_mem_wb,
+    [31:0] AluOut_mem_wb, DataMemoryOut_mem_wb
     );
 
     mux_2x1 mux2_wb(AluOut_mem_wb,DataMemoryOut_mem_wb,MemtoReg_mem_wb,WriteData);
