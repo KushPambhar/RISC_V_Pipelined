@@ -48,7 +48,7 @@ module top(input clk, input reset);
     IF_ID if_id(clk, reset, pc_out, pc_next,Instruction,pc_if_id, pc_next_if_id, Instruction_if_id);
     
     //ID
-    reg_file rf_inst(clk,Instruction_if_id[19:15],Instruction_if_id[24:20],Instruction_if_id[11:7],WriteData,ReadData1,ReadData2,RegWrite_mem_wb); 
+    reg_file rf_inst(clk,Instruction_if_id[19:15],Instruction_if_id[24:20],Instruction_mem_w[11:7],WriteData,ReadData1,ReadData2,RegWrite_mem_wb); 
     immgen immgen_inst(Instruction_if_id,Imm_Gen_Out);
     control control_inst(Instruction_if_id[6:0],RegWrite,MemWrite,MemRead,MemtoReg,Branch,AluSrcB,AluSrcA,AluOP);
     
