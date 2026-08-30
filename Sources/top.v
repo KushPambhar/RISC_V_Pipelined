@@ -64,7 +64,7 @@ module top(input clk, input reset);
         ReadData1_id_ex, ReadData2_id_ex, Imm_Gen_Out_id_ex,
         AluOP_id_ex, AluSrcA_id_ex, AluSrcB_id_ex,
         Branch_id_ex, MemRead_id_ex,MemWrite_id_ex,
-        RegWrite_id_ex, MemtoReg_id_ex, 
+        RegWrite_id_ex, MemtoReg_id_ex
         );
     
     //EX
