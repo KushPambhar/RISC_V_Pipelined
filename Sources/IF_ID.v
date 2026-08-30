@@ -1,4 +1,4 @@
-module IF_ID(input clk, input reset ,input [31:0] pc_if, input [31:0] pc_4_if, input [31:0] instruction_if, 
+module IF_ID(input clk, input reset ,input [31:0] pc_if, input [31:0] pc_4_if, input [31:0] instruction_if, input IF_ID_Write, 
             output reg [31:0] pc_id, output reg [31:0] pc_4_id, output reg [31:0] instruction_id );
 
             always @(posedge clk or posedge reset) begin
@@ -7,7 +7,7 @@ module IF_ID(input clk, input reset ,input [31:0] pc_if, input [31:0] pc_4_if, i
                     pc_4_id<=32'b0;
                     instruction_id <=32'b0;
                 end
-                else begin
+                else if(IF_ID_Write) begin
                     pc_id<=pc_if;
                     pc_4_id<=pc_4_if;
                     instruction_id <= instruction_if;
