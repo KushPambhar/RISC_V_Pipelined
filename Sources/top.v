@@ -69,7 +69,7 @@ module top(input clk, input reset);
     
     //EX
     adder a2(pc_id_ex,Imm_Gen_Out_id_ex,pc_branch);
-    mux_4x1 mux4_srcA(ReadData1_id_ex,32'b0, pc_out_id_ex, 32'b0, AluSrcA_id_ex ,SrcAOut);
+    mux_4x1 mux4_srcA(ReadData1_id_ex,32'b0, pc_id_ex, 32'b0, AluSrcA_id_ex ,SrcAOut);
     mux_2x1 mux2_srcB(ReadData2_id_ex,Imm_Gen_Out_id_ex, AluSrcB_id_ex ,SrcBOut);
     ALUControl alu_ctrl_inst(AluOP_id_ex,Instruction_id_ex[14:12],Instruction_id_ex[30],AluControlOut);
     ALU alu_inst(SrcAOut,SrcBOut,AluControlOut, AluOut, zero, lt, ltu);
