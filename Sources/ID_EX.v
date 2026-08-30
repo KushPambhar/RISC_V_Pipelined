@@ -7,12 +7,12 @@ module ID_EX(input clk, input reset ,input [31:0] pc_id, input [31:0] pc_4_id, i
             input RegWrite_id, input MemtoReg_id, //WB
 
             output reg [31:0] pc_ex, output reg [31:0] pc_4_ex, output reg [31:0] instruction_ex,
-            output [31:0] ReadData1_ex,output [31:0] ReadData2_ex,output [31:0] ImmGenOut_ex,
+            output reg [31:0] ReadData1_ex,output reg [31:0] ReadData2_ex,output reg [31:0] ImmGenOut_ex,
 
             //control lines
-            output [1:0] AluOp_ex, output [1:0]AluSrcA_ex, output AluSrcB_ex, // EX
-            output Branch_ex, output MemRead_ex, output MemWrite_ex, //MEM
-            output RegWrite_ex, output MemtoReg_ex, //WB
+            output reg [1:0] AluOp_ex, output reg [1:0]AluSrcA_ex, output reg AluSrcB_ex, // EX
+            output reg Branch_ex, output reg MemRead_ex, output reg MemWrite_ex, //MEM
+            output reg RegWrite_ex, output reg MemtoReg_ex //WB
             );
 
             always @(posedge clk or posedge reset) begin
