@@ -13,6 +13,12 @@ module top(input clk, input reset);
     wire [31:0] ReadData1, ReadData2;
     wire [31:0] Imm_Gen_Out;
 
+    // Added After Forwarding Implentation this is the signal after deciding whether stall is there or not
+    wire RegWrite_gated, MemWrite_gated, MemRead_gated;
+    wire MemtoReg_gated, Branch_gated, AluSrcB_gated;
+    wire [1:0] AluSrcA_gated, AluOP_gated;
+
+
     wire [31:0] pc_id_ex, pc_next_id_ex, Instruction_id_ex;
     wire [31:0] ReadData1_id_ex, ReadData2_id_ex, Imm_Gen_Out_id_ex;
     wire [1:0] AluOP_id_ex, AluSrcA_id_ex;
@@ -61,23 +67,23 @@ module top(input clk, input reset);
     control control_inst(Instruction_if_id[6:0],RegWrite,MemWrite,MemRead,MemtoReg,Branch,AluSrcB,AluSrcA,AluOP);
     
     //control_mux
-    assign RegWrite_id_ex = stall ? 0 : RegWrite;
-    assign MemWrite_id_ex = stall ? 0 : MemWrite;   
-    assign MemRead_id_ex = stall ? 0 : MemRead;
-    assign MemtoReg_id_ex = stall ? 0 : MemtoReg;
-    assign Branch_id_ex = stall ? 0 : Branch;
-    assign AluSrcB_id_ex = stall ? 0 : AluSrcB;
-    assign AluSrcA_id_ex = stall ? 0 : AluSrcA;
-    assign AluOP_id_ex = stall ? 0 : AluOP;
+    assign RegWrite_gated = stall ? 1'b0 : RegWrite;
+    assign MemWrite_gated = stall ? 1'b0 : MemWrite;   
+    assign MemRead_gated  = stall ? 1'b0 : MemRead;
+    assign MemtoReg_gated = stall ? 1'b0 : MemtoReg;
+    assign Branch_gated   = stall ? 1'b0 : Branch;
+    assign AluSrcB_gated  = stall ? 1'b0 : AluSrcB;
+    assign AluSrcA_gated  = stall ? 2'b0 : AluSrcA;
+    assign AluOP_gated    = stall ? 2'b0 : AluOP;
 
 
     //ID_EX
     ID_EX id_ex(clk, reset,
         pc_if_id, pc_next_if_id, Instruction_if_id,
         ReadData1,ReadData2,Imm_Gen_Out,
-        AluOP, AluSrcA,AluSrcB,
-        Branch,MemRead,MemWrite,
-        RegWrite,MemtoReg,
+        AluOP_gated, AluSrcA_gated,AluSrcB_gated,
+        Branch_gated,MemRead_gated,MemWrite_gated,
+        RegWrite_gated,MemtoReg_gated,
 
         pc_id_ex, pc_next_id_ex, Instruction_id_ex,
         ReadData1_id_ex, ReadData2_id_ex, Imm_Gen_Out_id_ex,
