@@ -5,8 +5,8 @@ module forwarding_unit(
     input [4:0] rd_mem_wb,
     input reg_write_ex,
     input reg_write_mem,
-    output reg forward_a,
-    output reg forward_b
+    output reg [1:0] forward_a,
+    output reg [1:0] forward_b
 );
     //EX & MEM-hazard
     always @(*) begin
