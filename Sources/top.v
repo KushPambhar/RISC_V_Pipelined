@@ -53,7 +53,7 @@ module top(input clk, input reset);
     IF_ID if_id(clk, reset, pc_out, pc_next,Instruction,IF_ID_Write,pc_if_id, pc_next_if_id, Instruction_if_id);
 
     //Hazard-detection
-    hazard_detection hazard_inst(Instruction_if_id[19:15],Instruction_if_id[24:20],Instruction_id_ex[11:7],MemRead_id_ex,RegWrite_ex_mem,PcWrite,IF_ID_Write,stall);
+    hazard_detection hazard_inst(Instruction_if_id[19:15],Instruction_if_id[24:20],Instruction_id_ex[11:7],MemRead_id_ex,PcWrite,IF_ID_Write,stall);
     
     //ID
     reg_file rf_inst(clk,Instruction_if_id[19:15],Instruction_if_id[24:20],Instruction_mem_wb[11:7],WriteData,ReadData1,ReadData2,RegWrite_mem_wb); 
