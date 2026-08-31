@@ -96,18 +96,18 @@ module top(input clk, input reset);
     forwarding_unit fwd_unit(Instruction_id_ex[19:15],Instruction_id_ex[24:20],Instruction_ex_mem[11:7],Instruction_mem_wb[11:7],RegWrite_ex_mem,RegWrite_mem_wb,forward_a,forward_b);
     
     adder a2(pc_id_ex,Imm_Gen_Out_id_ex,pc_branch);
-    mux_4x1 mux4_srcA(ReadData1_id_ex,32'b0, pc_id_ex, 32'b0, AluSrcA_id_ex ,SrcAOut);
-    mux_2x1 mux2_srcB(ReadData2_id_ex,Imm_Gen_Out_id_ex, AluSrcB_id_ex ,SrcBOut);
+    mux_4x1 mux4_srcA(ReadData1_fwd_a,32'b0, pc_id_ex, 32'b0, AluSrcA_id_ex ,SrcAOut);
+    mux_2x1 mux2_srcB(ReadData2_fwd_b,Imm_Gen_Out_id_ex, AluSrcB_id_ex ,SrcBOut);
     ALUControl alu_ctrl_inst(AluOP_id_ex,Instruction_id_ex[14:12],Instruction_id_ex[30],AluControlOut);
 
-    assign ReadData1_fwd_a = (forward_a == 2'b00) ? SrcAOut : (forward_a == 2'b01) ? AluOut_ex_mem : WriteData;
-    assign ReadData2_fwd_b = (forward_b == 2'b00) ? SrcBOut : (forward_b == 2'b01) ? AluOut_ex_mem : WriteData;
-    ALU alu_inst(ReadData1_fwd_a,ReadData2_fwd_b,AluControlOut, AluOut, zero, lt, ltu);
+    assign ReadData1_fwd_a = (forward_a == 2'b00) ? ReadData1_id_ex : (forward_a == 2'b01) ? AluOut_ex_mem : WriteData;
+    assign ReadData2_fwd_b = (forward_b == 2'b00) ? ReadData2_id_ex : (forward_b == 2'b01) ? AluOut_ex_mem : WriteData;
+    ALU alu_inst(SrcAOut,SrcBOut,AluControlOut, AluOut, zero, lt, ltu);
 
     //EX_MEM
     EX_MEM ex_mem(clk, reset,
         pc_id_ex, pc_next_id_ex, Instruction_id_ex,
-        ReadData2_fwd_b, //Later the name is changed to ReadData2_ex_mem but content is same.
+        SrcBOut, //Later the name is changed to ReadData2_ex_mem but content is same.
         Branch_id_ex, MemRead_id_ex,MemWrite_id_ex,
         RegWrite_id_ex, MemtoReg_id_ex,
         pc_branch,AluOut,zero,lt,ltu,
